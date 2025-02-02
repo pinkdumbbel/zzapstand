@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import { count, increment, setStateFunctions } from "../store/custom-store";
+import { createStore } from "../store/create-store";
 
 export const Counter = () => {
-  const [state, setState] = useState(count);
+  const [count, setCount] = useState(0);
+  const { subscribe, setState } = createStore(0);
 
-  const inc = () => {
-    increment(2);
-  };
+  const inc = () => setState(count + 1);
 
   useEffect(() => {
-    setStateFunctions.add(setState);
-    return () => {
-      setStateFunctions.delete(setState);
-    };
-  }, [setState]);
+    const unsubscribe = subscribe(setCount);
+    return unsubscribe;
+  }, [subscribe]);
 
   return (
     <div>
-      {state} <button onClick={inc}>+1</button>
+      {count} <button onClick={inc}>+1</button>
     </div>
   );
 };
