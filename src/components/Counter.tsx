@@ -5,7 +5,12 @@ export const Counter = () => {
   const [count, setCount] = useState(0);
   const { subscribe, setState } = createStore(0);
 
-  const inc = () => setState(count + 1);
+  const inc = () => {
+    setState((prev) => prev + 1);
+    setState((prev) => prev + 1);
+    setState((prev) => prev + 1);
+    setState((prev) => prev + 1);
+  };
 
   useEffect(() => {
     const unsubscribe = subscribe(setCount);
