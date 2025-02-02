@@ -1,50 +1,17 @@
-# React + TypeScript + Vite
+## Store방식의 전역 상태 관리 도구 구현
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 구현 내용
 
-Currently, two official plugins are available:
+1. Store생성 로직 구현
+2. 생성 된 Store를 구독하고 상태가 변경 됐을때 전파하는 훅 구현
+3. 상태 중 특정 값만 구독하는 Selector훅 구현
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 알게 된 점
 
-## Expanding the ESLint configuration
+store라는것이 처음에는 무엇인지 잘 몰랐는데 구현해보고나니 일반적으로 useState사용하는것과 비슷하지만 ``구독`의 개념이 들어간 차이가 있는듯 하다.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+그리고 이 Store를 랩핑한 훅들은 기본적으로 useState를 사용하게 되는데 이때 setState함수를 리스너로 등록 해주고 실제 훅에서의 리턴은 store의 setState를 해줌으로써 상태가 변경 될 때 구독한 모든 컴포넌트에 전파하는 방식으로 동작한다.
 
-- Configure the top-level `parserOptions` property like this:
+### 출처
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+https://velog.io/@wns450/%EC%A0%84%EC%97%AD%EC%83%81%ED%83%9C-%EB%AA%A8%EB%93%88-%EB%A1%9C%EC%9A%B0%EB%A0%88%EB%B2%A8%EB%B6%80%ED%84%B0-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EA%B8%B0
