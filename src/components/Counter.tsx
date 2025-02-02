@@ -5,8 +5,7 @@ export const Counter = () => {
   const [state, setState] = useState(count);
 
   const inc = () => {
-    const count = increment(2);
-    setStateFunctions.forEach((fn) => fn(count));
+    increment(2);
   };
 
   useEffect(() => {
