@@ -1,15 +1,13 @@
-interface Store<T> {
+export interface Store<T> {
   getState: () => T;
   setState: (nextState: T | ((prev: T) => T)) => void;
-  subscribe: (listener: (state: T) => void) => () => void;
+  subscribe: (listener: () => void) => () => void;
 }
-
-type SetState<T> = (state: T) => void;
 
 export const createStore = <T>(initialState: T): Store<T> => {
   let state = initialState;
 
-  const listeners = new Set<SetState<T>>();
+  const listeners = new Set<() => void>();
 
   const getState = () => state;
 
@@ -18,10 +16,10 @@ export const createStore = <T>(initialState: T): Store<T> => {
       typeof nextState === "function"
         ? (nextState as (prev: T) => T)(state)
         : state;
-    listeners.forEach((listener) => listener(state));
+    listeners.forEach((listener) => listener());
   };
 
-  const subscribe = (listener: SetState<T>) => {
+  const subscribe = (listener: () => void) => {
     listeners.add(listener);
     return () => listeners.delete(listener);
   };

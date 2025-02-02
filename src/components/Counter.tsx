@@ -1,25 +1,14 @@
-import { useEffect, useState } from "react";
+import { useStore } from "../hooks/useStore";
 import { createStore } from "../store/create-store";
 
+const counterStore = createStore(0);
+
 export const Counter = () => {
-  const [count, setCount] = useState(0);
-  const { subscribe, setState } = createStore(0);
-
-  const inc = () => {
-    setState((prev) => prev + 1);
-    setState((prev) => prev + 1);
-    setState((prev) => prev + 1);
-    setState((prev) => prev + 1);
-  };
-
-  useEffect(() => {
-    const unsubscribe = subscribe(setCount);
-    return unsubscribe;
-  }, [subscribe]);
+  const [count, setCount] = useStore(counterStore);
 
   return (
     <div>
-      {count} <button onClick={inc}>+1</button>
+      {count} <button onClick={() => setCount((prev) => prev + 1)}>+1</button>
     </div>
   );
 };
