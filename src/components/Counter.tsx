@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-
-let count = 0;
-const setStates = new Set<(count: number) => void>();
+import { count, increment, setStateFunctions } from "../store/custom-store";
 
 export const Counter = () => {
   const [state, setState] = useState(count);
 
   const inc = () => {
-    count++;
-    setStates.forEach((fn) => fn(count));
+    const count = increment(2);
+    setStateFunctions.forEach((fn) => fn(count));
   };
 
   useEffect(() => {
-    setStates.add(setState);
+    setStateFunctions.add(setState);
     return () => {
-      setStates.delete(setState);
+      setStateFunctions.delete(setState);
     };
   }, [setState]);
 
